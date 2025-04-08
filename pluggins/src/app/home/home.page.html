@@ -16,5 +16,16 @@
   <div id="container">
     <strong>Ready to create an app?</strong>
     <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button expand="full" (click)="takephoto()">foto</ion-button>
+      <ion-button (click)="getCurrentLocation()">Get Current Position</ion-button>
+      <br>
+      Latitude: {{ latitude }}<br>
+      Longitude: {{ longitude }}<br>
+      <ion-button (click)="showAlert()">Mostrar alerta</ion-button>
+      <ion-button (click)="checkConnection()">Comprobar conexion</ion-button>
+<br>
+  Connectado: {{ conectado }}<br>
+  conexion: {{ tipoConexion }}<br>
+
   </div>
 </ion-content>

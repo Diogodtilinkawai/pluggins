@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { IonHeader , IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/angular';
+import {Camera, CameraResultType  } from '@capacitor/camera';
+import { GeolocationService } from '../geolocation.service';
+import { DialogService } from '../dialog.service';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +12,40 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class HomePage {
+  latitude: number = 0;
+  longitude: number = 0 ;
+  conectado: boolean = false;
+  tipoConexion: string = '';
 
-  constructor() {}
+  constructor(private geolocationService: GeolocationService, private dialogservice: DialogService) {}
+
+  takephoto=async () =>{
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+    });
+    console.log(image.dataUrl);
+  }
+
+  async getCurrentLocation() {
+    try {
+      const coordinates = await this.geolocationService.getPosition();
+      this.latitude = coordinates.coords.latitude;
+      this.longitude = coordinates.coords.longitude;
+    } catch (error) {
+      console.error('Error getting location:', error);
+    }
+  }
+  showAlert() {
+    this.dialogservice.showAlert('Alerta', 'gus es gay ');
+  }
+  async checkConnection() {
+    const status = await Network.getStatus();
+    this.conectado = status.connected;
+    this.tipoConexion = status.connectionType;
+    console.log('Conectado:', status.connected);     
+    console.log('Tipo de conexión:', status.connectionType); 
+  }
 
 }
